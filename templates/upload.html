@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+
+
+{% block head %}
+    <title>Home</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+            crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename="dist/jquery-simple-upload.js") }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/upload.css") }}"/>
+    <script src="{{ url_for('static', filename="js/upload.js") }}"></script>
+{% endblock %}
+
+
+
+{% block body %}
+
+    <section class="h-100">
+        <div class="container h-100">
+            <div class="row justify-content-sm-center h-100 my-5">
+                <div>
+                    <div class="card shadow-lg">
+                        <div class="card-body p-5">
+                            <h1 class="fs-4 card-title fw-bold mb-4">Subir Ficheros</h1>
+                            <form>
+                                {% for message in get_flashed_messages() %}
+                                    <div class="alert alert-danger">{{ message }}</div>
+                                {% endfor %}
+
+                                <small>Seleccione o arrastre uno o varios ficheros. Al seleccionarlos o soltarlos, los ficheros serán guardado automáticamente en el servidor.</small>
+                                <div id="wrapper">
+                                    <input type="file" class="form-control" name="file" multiple="true" id="uploadFiles">
+                                    <div id="drop_zone" class="dropZone mt-3 mb-3">
+                                        <div><i class="fas fa-upload"></i>Soltar ficheros aquí</div>
+                                    </div>
+                                    <div id="progress">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

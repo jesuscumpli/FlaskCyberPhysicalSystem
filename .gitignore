@@ -1,0 +1,5 @@
+.idea/
+.venv/
+*/.idea
+*/PUBLIC_KEY
+*/PRIVATE_KEY
