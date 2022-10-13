@@ -1,5 +1,7 @@
 from repositories.clientMongo import client, db
 import datetime
+import json
+from bson import json_util
 
 collection = db["logs_devices"]
 
@@ -17,4 +19,5 @@ def insert_log_device(device_id, device_name, device_IP, action, log):
 
 def get_all_logs_from_device(device_id):
     result = list(collection.find({"device_id": device_id}))
+    result = json.loads(json_util.dumps(result))
     return result

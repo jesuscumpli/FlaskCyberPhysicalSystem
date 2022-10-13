@@ -17,6 +17,13 @@ def devices():
     devices = get_all_devices()
     return render_template("devices.html", devices=devices)
 
+@routes.route('/api/devices/info', methods=["GET"])
+def api_devices_info():
+    if not is_logged():
+        return redirect("/login")
+    devices = get_all_devices()
+    return jsonify({"devices": devices})
+
 
 @routes.route('/delete/device/<device_id>', methods=["POST"])
 def delete_device_by_id(device_id):
@@ -89,6 +96,70 @@ def new_device():
             return redirect("/devices")
         else:
             flash("No se ha insertado correctamente. Por favor, vuelve a añadir el dispositivo.")
+            return redirect(request.url)
+
+    return redirect("/login")
+
+
+@routes.route('/edit_device/<device_id>', methods=["GET", "POST"])
+def edit_device(device_id):
+    if not is_logged():
+        return redirect("/login")
+    if request.method == "GET":
+        device = get_device_by_id(device_id)
+        return render_template("edit_device.html", device=device)
+
+    elif request.method == "POST":
+
+        form_data = request.form
+        files = request.files
+
+        name = form_data.get("name")
+        type = form_data.get("type")
+        IP = form_data.get("ip")
+        public_key = files.get("public_key")
+        longitude = form_data.get("longitude")
+        latitude = form_data.get("latitude")
+
+        if not name or name == "":
+            flash("Nombre del dispoisitivo no válido")
+            return redirect(request.url)
+        if not type or type == "":
+            flash("Tipo no definido. Por favor, selecciona el tipo de dispositivo.")
+            return redirect(request.url)
+        if not IP or IP == "":
+            flash("IP no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        try:
+            socket.inet_aton(IP)
+        except socket.error:
+            flash("IP no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+
+        public_key_bytes = None
+        if public_key:
+            public_key_bytes = public_key.read()
+            try:
+                public_key = load_public_key_from_bytes(public_key_bytes)
+            except:
+                flash("Clave pública no válida. Por favor, define la clave pública del dispositivo.")
+                return redirect(request.url)
+
+        if not longitude or longitude == "":
+            flash("Longitud no válida. Por favor, define la localización correcta del dispositivo.")
+            return redirect(request.url)
+
+        if not latitude or latitude == "":
+            flash("Latitud no válida. Por favor, define la localización correcta del dispositivo.")
+            return redirect(request.url)
+
+        updated = update_device(device_id, name, type, IP, public_key_bytes, longitude, latitude, session["username"])
+        if updated:
+            insert_log_user(session["username"], "update_device",
+                            "Ha cambiado la configuración del dispositivo '" + name + "'")
+            return redirect("/devices")
+        else:
+            flash("No se ha actualizado correctamente. Por favor, vuelve a intentarlo.")
             return redirect(request.url)
 
     return redirect("/login")

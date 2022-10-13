@@ -3,7 +3,7 @@
 
 {% block head %}
     <title>Dispositivos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename="css/home.css") }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename="css/devices.css") }}"/>
     <script src="{{ url_for('static', filename="js/devices.js") }}"></script>
 {% endblock %}
 
@@ -16,12 +16,13 @@
 
                 <div class="col-md-12">
                     <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+                        <a href="/new_device" class="btn btn-primary float-end">Nuevo Dispositivo</a>
                         <h3>Lista de Dispositivos</h3>
                         <div id="message">
-
                         </div>
+
                         {% if devices | length %}
-                            <table class="table manage-candidates-top mb-0">
+                            <table class="table table-striped table-hover manage-candidates-top mb-0">
                                 <thead>
                                 <tr>
                                     <th>Nombre de dispositivo</th>
@@ -33,12 +34,11 @@
                                 </thead>
                                 <tbody>
                                 {% for device in devices %}
-                                    <tr id="{{ device["_id"] }}">
+                                    <tr id="{{ device["_id"]["$oid"] }}" class="clickable-row" data-href="/logs_device/{{device["_id"]["$oid"]}}">
                                         <td class="title">
                                             <div>
                                                 <div>
                                                     <div>
-                                                        <span><i class="fas fa-file" aria-hidden="true"></i></span>
                                                         <h5 class="mb-0" style="display: inline"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="{{ device.name }}"
@@ -48,25 +48,32 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
+                                            {% if device.type == "temperature" %}
+                                                <span><i class="fas fa-temperature-high" aria-hidden="true"></i></span>
+                                            {% elif device.type == "humidity" %}
+                                                <span><i class="far fa-snowflake" aria-hidden="true"></i></span>
+                                            {% elif device.type == "smart_meter" %}
+                                                <span><i class="fas fa-bolt" aria-hidden="true"></i></span>
+                                            {% endif %}
                                             <span>{{ device.type }}</span>
                                         </td>
                                         <td class="text-center">
                                             <span>Modificado por {{ device.last_update_by }}</span><br/>
-                                            <span>{{ device.last_update }}</span>
+                                            <span>{{ device.last_update["$date"] | format_datetime }}</span>
                                         </td>
                                         <td class="text-center">
                                             <span>Creado por {{ device.register_date_by }}</span><br/>
-                                            <span>{{ device.register_date }}</span>
+                                            <span>{{ device.register_date["$date"] | format_datetime }}</span>
                                         </td>
                                         <td class="text-right">
-                                                <span><a class="text-primary"
+                                                <span><a class="text-info" href="/edit_device/{{ device["_id"]["$oid"] }}"
                                                          data-toggle="tooltip" title="Descargar"
-                                                         data-original-title="view"><i class="fas fa-download"></i></a>
+                                                         data-original-title="view"><i class="fas fa-edit"></i></a>
                                                 </span>
-                                                <span><a href="#" onclick="delete_device('{{ device["_id"] }}')"
-                                                         class="text-danger ms-3" data-toggle="tooltip" title="Eliminar"
-                                                         data-original-title="Message"><i
-                                                        class="fas fa-trash"></i></a>
+                                            <span><a href="#" onclick="delete_device('{{ device["_id"]["$oid"] }}')"
+                                                     class="text-danger ms-3" data-toggle="tooltip" title="Eliminar"
+                                                     data-original-title="Message"><i
+                                                    class="fas fa-trash"></i></a>
                                                 </span>
                                         </td>
                                     </tr>
@@ -85,5 +92,7 @@
             </div>
         </div>
     </div>
+
+
 
 {% endblock %}

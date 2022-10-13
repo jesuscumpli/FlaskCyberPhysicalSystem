@@ -1,5 +1,7 @@
 from repositories.clientMongo import client, db
 import datetime
+import json
+from bson import json_util
 
 collection = db["logs_users"]
 
@@ -14,5 +16,6 @@ def insert_log_user(username, action, log):
     return result
 
 def get_all_logs_user():
-    result = collection.find()
+    result = list(collection.find())
+    result = json.loads(json_util.dumps(result))
     return result

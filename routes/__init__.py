@@ -9,3 +9,4 @@ Add routes python files
 from .userRoutes import *
 from .homeRoutes import *
 from .deviceRoutes import *
+from .logsDeviceRoutes import *

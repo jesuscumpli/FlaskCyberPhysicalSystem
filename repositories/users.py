@@ -1,6 +1,7 @@
 import datetime
-
 from repositories.clientMongo import client, db
+import json
+from bson import json_util
 
 collection = db["users"]
 
@@ -22,4 +23,5 @@ def update_user_login_date(username):
 
 def find_user_by_username(username):
     result = collection.find_one({"username": username})
+    result = json.loads(json_util.dumps(result))
     return result
