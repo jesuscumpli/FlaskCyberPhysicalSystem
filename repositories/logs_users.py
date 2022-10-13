@@ -19,3 +19,8 @@ def get_all_logs_user():
     result = list(collection.find())
     result = json.loads(json_util.dumps(result))
     return result
+
+def get_all_logs_user_date_desc():
+    result = list(collection.find().sort('date', -1))
+    result = json.loads(json_util.dumps(result))
+    return result

@@ -10,3 +10,4 @@ from .userRoutes import *
 from .homeRoutes import *
 from .deviceRoutes import *
 from .logsDeviceRoutes import *
+from .logsUsersRoutes import *
