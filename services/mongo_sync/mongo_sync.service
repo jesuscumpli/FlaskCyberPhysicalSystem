@@ -1,0 +1,11 @@
+[Unit]
+Description=MongoDB Sync Service
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /opt/controlSystem/services/mongo_sync/mongo_sync.py
+
+[Install]
+WantedBy=multi-user.target
