@@ -23,6 +23,7 @@ class Server(TCPServer):
 
 if __name__ == "__main__":
     server = Server((HOST, PORT), Handler)
+    print("Loading server")
     server.serve_forever()
     logging.info("Success")
     print("Successs")
