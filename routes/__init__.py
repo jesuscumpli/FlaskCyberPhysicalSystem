@@ -1,4 +1,6 @@
 from flask import Blueprint
+import sys
+sys.path.append("/opt/controlSystem")
 
 routes = Blueprint('routes', __name__)
 

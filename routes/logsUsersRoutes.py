@@ -1,3 +1,6 @@
+import sys
+sys.path.append("/opt/controlSystem")
+
 import hashlib
 from flask import render_template, session, redirect, request, flash
 from utils import is_logged
