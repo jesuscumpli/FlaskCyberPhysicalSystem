@@ -14,3 +14,5 @@ def format_datetime(date_value):
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
 
+def main():
+    app.run(debug=True, host='0.0.0.0')
