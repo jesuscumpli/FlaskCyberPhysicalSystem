@@ -67,7 +67,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <span>{{ log_device.date }}</span>
+                                            <span>{{ log_device.date["$date"] | format_datetime }}</span>
                                         </td>
                                     </tr>
                                 {% endfor %}
