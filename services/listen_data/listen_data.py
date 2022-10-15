@@ -9,8 +9,6 @@ class Handler(StreamRequestHandler):
     def handle(self):
         self.data = self.rfile.readline().strip()
         logging.info("From <%s>: %s" % (self.client_address, self.data))
-        self.wfile.write(self.data.upper() + "\r\n".encode("utf-8"))
-
 
 class Server(TCPServer):
     SYSTEMD_FIRST_SOCKET_FD = 3
