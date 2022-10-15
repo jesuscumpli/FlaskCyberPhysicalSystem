@@ -1,12 +1,14 @@
 from socketserver import TCPServer, StreamRequestHandler
 import socket
 import logging
+
 logging.basicConfig(level=logging.INFO)
-from repositories import devices as repo_devices
-from repositories import logs_devices as repo_logs_device
+from ...repositories import devices as repo_devices
+from ...repositories import logs_devices as repo_logs_device
 import json
 
 HOST, PORT = "localhost", 8887
+
 
 class Handler(StreamRequestHandler):
     def handle(self):
@@ -50,9 +52,12 @@ class Handler(StreamRequestHandler):
         elif isinstance(data, list):
             data = {"message": None, "json": None, "list": data}
         self.data = json.dumps(data)
+
     def save_data(self):
         action = "data"
-        repo_logs_device.insert_log_device(self.device["_id"]["$oid"], self.device["name"], self.device["IP"], action, self.data)
+        repo_logs_device.insert_log_device(self.device["_id"]["$oid"], self.device["name"], self.device["IP"], action,
+                                           self.data)
+
 
 class Server(TCPServer):
     SYSTEMD_FIRST_SOCKET_FD = 3
