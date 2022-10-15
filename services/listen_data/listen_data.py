@@ -7,8 +7,11 @@ HOST, PORT = "localhost", 8887
 
 class Handler(StreamRequestHandler):
     def handle(self):
-        self.data = self.rfile.readline().strip()
-        logging.info("From <%s>: %s" % (self.client_address, self.data))
+        try:
+            self.data = self.rfile.readline().strip()
+            logging.info("From <%s>: %s" % (self.client_address, self.data))
+        except Exception as e:
+            logging.exception(str(e))
 
 class Server(TCPServer):
     SYSTEMD_FIRST_SOCKET_FD = 3
