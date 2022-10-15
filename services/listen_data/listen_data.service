@@ -1,0 +1,12 @@
+[Unit]
+Description=Listen Data Service
+After=network.target listen_data.socket
+Requires=listen_data.socket
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/controlSystem/services/listen_data.py
+TimeoutStopSec=5
+
+[Install]
+WantedBy=default.target

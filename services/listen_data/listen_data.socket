@@ -1,0 +1,9 @@
+[Unit]
+Description=Listen Data Socket
+PartOf=listen_data.service
+
+[Socket]
+ListenStream=127.0.0.1:8887
+
+[Install]
+WantedBy=sockets.target
