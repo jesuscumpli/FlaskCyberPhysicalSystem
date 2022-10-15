@@ -2,9 +2,12 @@ from socketserver import TCPServer, StreamRequestHandler
 import socket
 import logging
 
+import sys
+sys.path.append("/opt/controlSystem")
+
 logging.basicConfig(level=logging.INFO)
-from ...repositories import devices as repo_devices
-from ...repositories import logs_devices as repo_logs_device
+from repositories import devices as repo_devices
+from repositories import logs_devices as repo_logs_device
 import json
 
 HOST, PORT = "localhost", 8887
