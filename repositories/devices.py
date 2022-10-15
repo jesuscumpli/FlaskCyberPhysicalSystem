@@ -53,3 +53,8 @@ def get_device_by_id(device_id):
     result = collection.find_one({"_id": ObjectId(device_id)})
     result = json.loads(json_util.dumps(result))
     return result
+
+def get_device_by_IP(IP):
+    result = collection.find_one({"IP": IP})
+    result = json.loads(json_util.dumps(result))
+    return result
