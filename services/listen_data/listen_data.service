@@ -5,7 +5,7 @@ Requires=listen_data.socket
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /opt/controlSystem/services/listen_data.py
+ExecStart=/usr/bin/python3 /opt/controlSystem/services/listen_data/listen_data.py
 TimeoutStopSec=5
 
 [Install]
