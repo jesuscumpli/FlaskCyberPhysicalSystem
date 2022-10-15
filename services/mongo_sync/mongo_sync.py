@@ -1,5 +1,9 @@
 import time
 from datetime import datetime
+
+import sys
+sys.path.append("/opt/controlSystem")
+
 from pymongo import MongoClient
 import os
 import subprocess
