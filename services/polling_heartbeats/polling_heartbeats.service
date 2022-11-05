@@ -1,0 +1,12 @@
+[Unit]
+Description=Polling Heartbeats Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/controlSystem/services/polling_heartbeats/polling_heartbeats.py
+RuntimeMaxSec=3600s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -8,7 +8,7 @@ sys.path.append("/opt/controlSystem")
 import pymongo
 logging.basicConfig(level=logging.INFO)
 from repositories import devices as repo_devices
-from repositories import failed_heartbeats_devices as repo_failed_heartbeats_device
+from repositories import heartbeats_devices as repo_heartbeats_device
 import json
 
 HOST, PORT = "localhost", 8885
@@ -37,8 +37,8 @@ class Handler(StreamRequestHandler):
     def save_data(self):
         action = "failed"
         log = "heartbeat failed"
-        repo_failed_heartbeats_device.insert_failed_heartbeat_device(self.device["_id"]["$oid"], self.device["name"],
-                                                                     self.device["IP"], action, log)
+        repo_heartbeats_device.insert_heartbeat_device(self.device["_id"]["$oid"], self.device["name"],
+                                                       self.device["IP"], action, log, success=False)
 
 
 class Server(TCPServer):

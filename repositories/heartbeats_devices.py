@@ -4,26 +4,37 @@ import json
 from bson import json_util
 import pymongo
 
-collection = db["logs_devices"]
+collection = db["heartbeats_devices"]
 
-def insert_log_device(device_id, device_name, device_IP, action, log):
+def insert_heartbeat_device(device_id, device_name, device_IP, action, log, success=True):
     device_data = {
         "device_id": device_id,
         "device_name": device_name,
         "device_IP": device_IP,
         "action": action,
+        "success": success,
         "log": log,
         "date": datetime.datetime.now()
     }
     result = collection.insert_one(device_data)
     return result
 
-def get_all_logs_from_device(device_id):
+def get_all_heartbeats_from_device(device_id):
     result = list(collection.find({"device_id": device_id}))
     result = json.loads(json_util.dumps(result))
     return result
 
-def get_last_log_device_fom_device(device_id):
+def get_all_failed_heartbeats_from_device(device_id):
+    result = list(collection.find({"device_id": device_id, "success": False}))
+    result = json.loads(json_util.dumps(result))
+    return result
+
+def get_all_success_heartbeats_from_device(device_id):
+    result = list(collection.find({"device_id": device_id, "success": True}))
+    result = json.loads(json_util.dumps(result))
+    return result
+
+def get_last_heartbeat_from_device(device_id):
     result = collection.find_one({"device_id": device_id}, sort=[('date', pymongo.DESCENDING)])
     result = json.loads(json_util.dumps(result))
     return result

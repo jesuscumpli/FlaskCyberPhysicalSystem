@@ -1,4 +1,7 @@
 import sys
+
+from repositories.heartbeats_devices import get_last_heartbeat_from_device
+
 sys.path.append("/opt/controlSystem")
 
 import hashlib
@@ -20,11 +23,21 @@ def devices():
     devices = get_all_devices()
     return render_template("devices.html", devices=devices)
 
+
+def get_last_log_device_from_device(param):
+    pass
+
+
 @routes.route('/api/devices/info', methods=["GET"])
 def api_devices_info():
     if not is_logged():
         return redirect("/login")
     devices = get_all_devices()
+    for device in devices:
+        last_heartbeat = get_last_heartbeat_from_device(device["_id"]["$oid"])
+        last_log = get_last_log_device_from_device(device["_id"]["$oid"])
+        device["last_heartbeat"] = last_heartbeat
+        device["last_log"] = last_log
     return jsonify({"devices": devices})
 
 
