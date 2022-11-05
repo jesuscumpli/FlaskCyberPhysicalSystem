@@ -34,26 +34,28 @@ def thread_hearbeat_device(device_name, device_ip, device_id):
     logging.info("************ THREAD INIT: DEVICE - " + str(device_name) + " - IP - " + str(device_ip) + " **********")
     while True:
         logging.info("* THREAD REQUEST HEARTBEAT: DEVICE - " + device_name + " - IP - " + device_ip)
-        # response = subprocess.check_output(
-        #     "ping -{} 1 {}".format('n' if platform.system().lower() == "windows" else 'c', device_ip), shell=True)
+        try:
+            # response = subprocess.check_output(
+            #     "ping -{} 1 {}".format('n' if platform.system().lower() == "windows" else 'c', device_ip), shell=True)
+            # response = response.decode()
+            # logging.info(response)
+            # if 'bytes=32' in response and 'Packets: Sent = 1, Received = 1, Lost = 0 (0% loss)' in response:
 
-        response = os.system("ping -{} 1 {}".format('n' if platform.system().lower() == "windows" else 'c', device_ip))
+            response = os.system("ping -{} 1 {}".format('n' if platform.system().lower() == "windows" else 'c', device_ip))
+            if response == 0:
+                logging.info(
+                    "** THREAD RESPONSE HEARTBEAT: DEVICE - " + device_name + " - IP - " + device_ip + " => SUCCESS!")
+                save_heartbeat_response(device_id, device_name, device_ip, success=True)
+            else:
+                logging.info(
+                    "** THREAD RESPONSE HEARTBEAT: DEVICE - " + device_name + " - IP - " + device_ip + " => Failed!")
+                save_heartbeat_response(device_id, device_name, device_ip, success=False)
 
-        # response = response.decode()
-        # logging.info(response)
-        # if 'bytes=32' in response and 'Packets: Sent = 1, Received = 1, Lost = 0 (0% loss)' in response:
-        if response == 0:
-            logging.info(
-                "** THREAD RESPONSE HEARTBEAT: DEVICE - " + device_name + " - IP - " + device_ip + " => SUCCESS!")
-            save_heartbeat_response(device_id, device_name, device_ip, success=True)
-        else:
-            logging.info(
-                "** THREAD RESPONSE HEARTBEAT: DEVICE - " + device_name + " - IP - " + device_ip + " => Failed!")
-            save_heartbeat_response(device_id, device_name, device_ip, success=False)
-
-        random_sleep = random.randint(MIN_SLEEP, MAX_SLEEP)
-        logging.info("THREAD: DEVICE - " + device_name + " - IP - " + device_ip + " - SLEEPPING " + str(
-            random_sleep) + " seconds")
+            random_sleep = random.randint(MIN_SLEEP, MAX_SLEEP)
+            logging.info("THREAD: DEVICE - " + device_name + " - IP - " + device_ip + " - SLEEPPING " + str(
+                random_sleep) + " seconds")
+        except Exception as e:
+            logging.exception("THREAD: DEVICE - " + device_name + " - IP - " + device_ip + " - EXCEPTION " + str(e))
         time.sleep(random_sleep)
 
 if __name__ == "__main__":
