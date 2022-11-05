@@ -8,8 +8,12 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 let markers = [];
 let devices = [];
 
+const MIN_TIME_HEARTBEAT_SECONDS = 60 * 10;
+
 function format_datetime(date) {
-    return new Date(date).toLocaleString();
+    let last_heartbeat_date = new Date(date);
+    last_heartbeat_date.setHours(last_heartbeat_date.getHours() - 1);
+    return last_heartbeat_date.toLocaleString();
 }
 
 function popup_device(device) {
@@ -20,17 +24,17 @@ function popup_device(device) {
         last_log_date = format_datetime(device.last_log.date["$date"]);
     }
     let last_heartbeat_action = "";
-    let last_heartbeat_date = "";
+    let last_heartbeat_date_string = "";
     if (device.last_heartbeat) {
         last_heartbeat_action = device.last_heartbeat.action;
-        last_heartbeat_date = format_datetime(device.last_heartbeat.date["$date"]);
+        last_heartbeat_date_string = format_datetime(device.last_heartbeat.date["$date"]);
     }
     let div = `<div class="card" style="background-color">
                   <div class="card-body text-center">
                     <h5 class="card-title">` + device.name + `</h5>
                     <h6 class="card-subtitle mb-2 text-muted">` + device.type + `</h6>
                     <p class="card-text">
-                        <span><b>Last Heartbeat: </b>` + last_heartbeat_action + `(` + last_heartbeat_date + `)</span><br/>
+                        <span><b>Last Heartbeat: </b>` + last_heartbeat_action + `(` + last_heartbeat_date_string + `)</span><br/>
                         <span><b>Last Log: </b>` + last_log_action + `(` + last_log_date + `)</span><br/>
                     </p>
                     <a href="/logs_device/` + device["_id"]["$oid"] + `" class="card-link">Más información</a>
@@ -48,7 +52,14 @@ function popup_device(device) {
             devices.forEach((device) => {
                 let color_marker = "red";
                 if (device.last_heartbeat && device.last_heartbeat.success) {
-                    color_marker = "green";
+                    let last_heartbeat_date = new Date(device.last_heartbeat.date["$date"]);
+                    last_heartbeat_date.setHours(last_heartbeat_date.getHours() - 1);
+                    let now_date = new Date();
+                    let diffTime = Math.abs(now_date - last_heartbeat_date);
+                    let diffTimeSeconds = diffTime / 1000.0;
+                    if (diffTimeSeconds < MIN_TIME_HEARTBEAT_SECONDS) {
+                        color_marker = "green";
+                    }
                 }
                 var icon_marker = new L.Icon({
                     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-' + color_marker + '.png',

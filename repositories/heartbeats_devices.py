@@ -7,6 +7,7 @@ import pymongo
 collection = db["heartbeats_devices"]
 
 def insert_heartbeat_device(device_id, device_name, device_IP, action, log, success=True):
+    date = datetime.datetime.now()
     device_data = {
         "device_id": device_id,
         "device_name": device_name,
@@ -14,7 +15,7 @@ def insert_heartbeat_device(device_id, device_name, device_IP, action, log, succ
         "action": action,
         "success": success,
         "log": log,
-        "date": datetime.datetime.now()
+        "date": date
     }
     result = collection.insert_one(device_data)
     return result
