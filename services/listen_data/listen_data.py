@@ -5,7 +5,6 @@ import logging
 import sys
 sys.path.append("/opt/controlSystem")
 
-import pymongo
 logging.basicConfig(level=logging.INFO)
 from repositories import devices as repo_devices
 from repositories import logs_devices as repo_logs_device

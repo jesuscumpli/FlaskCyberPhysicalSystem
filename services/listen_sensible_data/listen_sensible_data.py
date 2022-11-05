@@ -5,7 +5,6 @@ import logging
 import sys
 sys.path.append("/opt/controlSystem")
 
-import pymongo
 logging.basicConfig(level=logging.INFO)
 from repositories import devices as repo_devices
 from repositories import logs_devices as repo_logs_device
@@ -13,7 +12,7 @@ import json
 from encryption.encryption import Encryption
 from encryption.functions import *
 
-HOST, PORT = "localhost", 8886
+HOST, PORT = "0.0.0.0", 8886
 
 
 class Handler(StreamRequestHandler):

@@ -51,11 +51,12 @@ def thread_hearbeat_device(device_name, device_ip, device_id):
                     "** THREAD RESPONSE HEARTBEAT: DEVICE - " + device_name + " - IP - " + device_ip + " => Failed!")
                 save_heartbeat_response(device_id, device_name, device_ip, success=False)
 
-            random_sleep = random.randint(MIN_SLEEP, MAX_SLEEP)
-            logging.info("THREAD: DEVICE - " + device_name + " - IP - " + device_ip + " - SLEEPPING " + str(
-                random_sleep) + " seconds")
         except Exception as e:
             logging.exception("THREAD: DEVICE - " + device_name + " - IP - " + device_ip + " - EXCEPTION " + str(e))
+
+        random_sleep = random.randint(MIN_SLEEP, MAX_SLEEP)
+        logging.info("THREAD: DEVICE - " + device_name + " - IP - " + device_ip + " - SLEEPPING " + str(
+            random_sleep) + " seconds")
         time.sleep(random_sleep)
 
 if __name__ == "__main__":
