@@ -39,7 +39,7 @@ def thread_hearbeat_device(device_name, device_ip, device_id):
 
         response = os.system("ping -{} 1 {}".format('n' if platform.system().lower() == "windows" else 'c', device_ip))
 
-        response = response.decode()
+        # response = response.decode()
         # logging.info(response)
         # if 'bytes=32' in response and 'Packets: Sent = 1, Received = 1, Lost = 0 (0% loss)' in response:
         if response == 0:
