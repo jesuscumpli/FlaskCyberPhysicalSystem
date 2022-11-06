@@ -1,6 +1,7 @@
 import sys
 
 from repositories.heartbeats_devices import get_last_heartbeat_from_device
+from repositories.logs_devices import get_last_log_device_from_device
 
 sys.path.append("/opt/controlSystem")
 
@@ -22,10 +23,6 @@ def devices():
         return redirect("/login")
     devices = get_all_devices()
     return render_template("devices.html", devices=devices)
-
-
-def get_last_log_device_from_device(param):
-    pass
 
 
 @routes.route('/api/devices/info', methods=["GET"])
