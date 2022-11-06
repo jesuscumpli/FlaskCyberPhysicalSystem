@@ -19,7 +19,7 @@ def insert_log_device(device_id, device_name, device_IP, action, log):
     return result
 
 def get_all_logs_from_device(device_id):
-    result = list(collection.find({"device_id": device_id}))
+    result = list(collection.find({"device_id": device_id}, sort=[('date', pymongo.DESCENDING)]))
     result = json.loads(json_util.dumps(result))
     return result
 
