@@ -4,8 +4,6 @@ import sys
 
 sys.path.append("/opt/controlSystem")
 
-import pymongo
-
 logging.basicConfig(level=logging.INFO)
 from repositories import devices as repo_devices
 from repositories import heartbeats_devices as repo_heartbeats_device
@@ -66,7 +64,7 @@ if __name__ == "__main__":
     threadlist = []
     for device in all_devices:
         device_name = device["name"]
-        device_ip = device["IP"]
+        device_ip = device["IP_heartbeat"]
         device_id = device["_id"]["$oid"]
         threadlist.append(Thread(target=thread_hearbeat_device, args=(device_name, device_ip, device_id)))
 

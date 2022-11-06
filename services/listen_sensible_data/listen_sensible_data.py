@@ -21,7 +21,9 @@ class Handler(StreamRequestHandler):
         try:
             self.data = self.rfile.readline().strip()
             logging.info("DATOS SENSIBLES RECIBIDOS DE <%s>: %s" % (self.client_address, self.data))
+            self.decode_message_info()
             self.get_device_by_IP_address()
+            self.verify_data()
             self.decrypt_data()
             logging.info("MENSAJE DESENCRIPTADO: %s" % (self.data))
             self.normalize_data()
@@ -31,13 +33,30 @@ class Handler(StreamRequestHandler):
         except Exception as e:
             logging.exception(str(e))
 
+    def decode_message_info(self):
+        message = self.data
+        message = message.decode("ISO-8859-1")
+        message = json.loads(message)
+        self.message = message
+
     def get_device_by_IP_address(self):
         try:
-            self.device = repo_devices.get_device_by_IP(str(self.client_address[0]))
+            # self.device = repo_devices.get_device_by_IP(str(self.client_address[0]))
+            # if not self.device:
+            #     raise Exception()
+            self.device = repo_devices.get_device_by_IP(str(self.message["IP_data"]))
             if not self.device:
                 raise Exception()
         except Exception as e:
             raise Exception("No existe el dispositivo con IP: " + self.client_address[0])
+
+    def verify_data(self):
+        signature = self.message["signature"].encode("ISO-8859-1")
+        public_key_objective_bytes = self.device["public_key"]["$binary"]["base64"]
+        public_key_objective_bytes = base64.b64decode(public_key_objective_bytes)
+        public_key_objective = load_public_key_from_bytes(public_key_objective_bytes)
+        data = self.message["data"].encode("ISO-8859-1")
+        verify_signature(signature, data, public_key_objective)
 
     def decrypt_data(self):
         public_key_objective_bytes = self.device["public_key"]["$binary"]["base64"]
@@ -47,7 +66,7 @@ class Handler(StreamRequestHandler):
         public_key = load_public_key("/opt/controlSystem/encryption/PUBLIC_KEY")
 
         decryptor = Encryption(private_key, public_key)
-        decrypted_msg = decryptor.decrypt(self.data, public_key_objective)
+        decrypted_msg = decryptor.decrypt(self.message["data"].encode("ISO-8859-1"), public_key_objective)
         self.data = decrypted_msg
         logging.info("DECRYPTED MESSAGE: " + str(decrypted_msg))
 

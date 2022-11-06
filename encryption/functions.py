@@ -3,6 +3,8 @@ try:
 except:
     from encryption.config import *
 from Crypto.PublicKey import RSA
+from Crypto.Signature.pkcs1_15 import PKCS115_SigScheme
+from Crypto.Hash import SHA256
 
 
 def generate_and_save_keys(filename_private_key=FILENAME_PRIVATE_KEY, filename_public_key=FILENAME_PUBLIC_KEY):
@@ -41,3 +43,16 @@ def load_private_key(filename_private_key=FILENAME_PRIVATE_KEY):
     private_key = RSA.importKey(private_key_bytes)
     return private_key
 
+def firm_data(data, private_key):
+    hash = SHA256.new(data)
+    signer = PKCS115_SigScheme(private_key)
+    signature = signer.sign(hash)
+    return signature
+
+def verify_signature(signature, data, public_key):
+    hash = SHA256.new(data)
+    verifier = PKCS115_SigScheme(public_key)
+    try:
+        verifier.verify(hash, signature)
+    except:
+        raise Exception("Error decrypting message: Signature incorrect!")

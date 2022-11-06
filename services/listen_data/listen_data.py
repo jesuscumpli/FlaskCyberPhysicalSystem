@@ -9,6 +9,9 @@ logging.basicConfig(level=logging.INFO)
 from repositories import devices as repo_devices
 from repositories import logs_devices as repo_logs_device
 import json
+from encryption.encryption import Encryption
+from encryption.functions import *
+import base64
 
 HOST, PORT = "localhost", 8887
 
@@ -18,7 +21,10 @@ class Handler(StreamRequestHandler):
         try:
             self.data = self.rfile.readline().strip()
             logging.info("DATOS RECIBIDOS DE <%s>: %s" % (self.client_address, self.data))
+            self.decode_message_info()
             self.get_device_by_IP_address()
+            self.verify_data()
+            self.data = self.message["data"]
             self.normalize_data()
             self.save_data()
             logging.info("Se ha guardado correctamente en Base de Datos \n")
@@ -26,23 +32,32 @@ class Handler(StreamRequestHandler):
         except Exception as e:
             logging.exception(str(e))
 
+    def decode_message_info(self):
+        message = self.data
+        message = message.decode("ISO-8859-1")
+        message = json.loads(message)
+        self.message = message
+
     def get_device_by_IP_address(self):
         try:
-            self.device = repo_devices.get_device_by_IP(str(self.client_address[0]))
+            # self.device = repo_devices.get_device_by_IP(str(self.client_address[0]))
+            # if not self.device:
+            #     raise Exception()
+            self.device = repo_devices.get_device_by_IP(str(self.message["IP_data"]))
             if not self.device:
                 raise Exception()
         except Exception as e:
             raise Exception("No existe el dispositivo con IP: " + self.client_address[0])
 
+    def verify_data(self):
+        signature = self.message["signature"].encode("ISO-8859-1")
+        public_key_objective_bytes = self.device["public_key"]["$binary"]["base64"]
+        public_key_objective_bytes = base64.b64decode(public_key_objective_bytes)
+        public_key_objective = load_public_key_from_bytes(public_key_objective_bytes)
+        data = self.message["data"].encode("ISO-8859-1")
+        verify_signature(signature, data, public_key_objective)
     def normalize_data(self):
         data = self.data
-        try:
-            data = data.decode()
-        except:
-            try:
-                data = data.decode('ISO-8859-1')
-            except:
-                data = str(data)
         try:
             data = json.loads(data)
         except Exception as e:

@@ -38,7 +38,7 @@ class Handler(StreamRequestHandler):
         action = "failed"
         log = "heartbeat failed"
         repo_heartbeats_device.insert_heartbeat_device(self.device["_id"]["$oid"], self.device["name"],
-                                                       self.device["IP"], action, log, success=False)
+                                                       self.device["IP_heartbeat"], action, log, success=False)
 
 
 class Server(TCPServer):

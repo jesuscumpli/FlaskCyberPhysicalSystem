@@ -120,6 +120,8 @@ def new_device():
             flash("Latitud no válida. Por favor, define la localización correcta del dispositivo.")
             return redirect(request.url)
 
+        port_data = int(port_data)
+        port_operation = int(port_operation)
         inserted = insert_device(name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"])
         if inserted:
             insert_log_user(session["username"], "register_device",
@@ -202,6 +204,8 @@ def edit_device(device_id):
             flash("Latitud no válida. Por favor, define la localización correcta del dispositivo.")
             return redirect(request.url)
 
+        port_data = int(port_data)
+        port_operation = int(port_operation)
         updated = update_device(device_id, name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"])
         if updated:
             insert_log_user(session["username"], "update_device",
