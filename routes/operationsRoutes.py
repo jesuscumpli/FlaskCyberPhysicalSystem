@@ -37,7 +37,7 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
         s.sendall(message)
         response = s.recv(1024)
         logging.info("ACK: " + str(response))
-        if "OK" in response.decode("ISO-8859-1"):
+        if "OK" in response.decode():
             result = True
         # result = True
     return result
