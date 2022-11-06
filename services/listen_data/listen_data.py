@@ -74,7 +74,7 @@ class Handler(StreamRequestHandler):
 
     def save_data(self):
         action = "data"
-        repo_logs_device.insert_log_device(self.device["_id"]["$oid"], self.device["name"], self.device["IP"], action,
+        repo_logs_device.insert_log_device(self.device["_id"]["$oid"], self.device["name"], self.device["IP_data"], action,
                                            self.data)
 
 
