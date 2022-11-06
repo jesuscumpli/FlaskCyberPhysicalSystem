@@ -33,9 +33,10 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((ip_to_send, port_to_send))
         s.sendall(message)
-        response = s.recv(1024)
-        if "OK" in response.decode("ISO-8859-1"):
-            result = True
+        # response = s.recv(1024)
+        # if "OK" in response.decode("ISO-8859-1"):
+        #     result = True
+        result = True
     return result
 
 
