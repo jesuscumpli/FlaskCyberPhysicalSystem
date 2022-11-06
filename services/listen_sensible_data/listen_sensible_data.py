@@ -40,6 +40,7 @@ class Handler(StreamRequestHandler):
 
     def decrypt_data(self):
         public_key_objective_bytes = self.device["public_key"]
+        logging.info(public_key_objective_bytes)
         public_key_objective = load_public_key_from_bytes(public_key_objective_bytes)
         private_key_objective = load_private_key()
         public_key = load_public_key()
