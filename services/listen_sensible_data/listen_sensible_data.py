@@ -43,8 +43,8 @@ class Handler(StreamRequestHandler):
         public_key_objective_bytes = self.device["public_key"]["$binary"]["base64"]
         public_key_objective_bytes = base64.b64decode(public_key_objective_bytes)
         public_key_objective = load_public_key_from_bytes(public_key_objective_bytes)
-        private_key_objective = load_private_key("/opt/controlSystem/PRIVATE_KEY")
-        public_key = load_public_key("/opt/controlSystem/PUBLIC_KEY")
+        private_key_objective = load_private_key("/opt/controlSystem/encryption/PRIVATE_KEY")
+        public_key = load_public_key("/opt/controlSystem/encryption/PUBLIC_KEY")
 
         decryptor = Encryption(private_key_objective, public_key_objective)
         decrypted_msg = decryptor.decrypt(self.data, public_key)
