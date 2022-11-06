@@ -75,8 +75,10 @@ def new_device():
         encrypt_operation = form_data.get("encrypt_operation")
 
         if encrypt_operation is None:
-            flash("Encrypt Operation failed")
-            return redirect(request.url)
+            encrypt_operation = False
+        else:
+            encrypt_operation = True
+
         if not name or name == "":
             flash("Nombre del dispoisitivo no válido")
             return redirect(request.url)
@@ -164,8 +166,9 @@ def edit_device(device_id):
         encrypt_operation = form_data.get("encrypt_operation")
 
         if encrypt_operation is None:
-            flash("Encrypt Operation failed")
-            return redirect(request.url)
+            encrypt_operation = False
+        else:
+            encrypt_operation = True
 
         if not name or name == "":
             flash("Nombre del dispoisitivo no válido")
