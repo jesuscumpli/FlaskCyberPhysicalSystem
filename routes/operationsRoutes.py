@@ -30,6 +30,7 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
     signature = firm_data(data, private_key)
     message = {"ip_control_system": IP_CONTROL_SYSTEM, "data": data.decode("ISO-8859-1"), "signature": signature.decode("ISO-8859-1")}
     message = json.dumps(message)
+    message += "\n"
     message = message.encode("ISO-8859-1")
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
