@@ -44,7 +44,7 @@ class Handler(StreamRequestHandler):
             # self.device = repo_devices.get_device_by_IP(str(self.client_address[0]))
             # if not self.device:
             #     raise Exception()
-            self.device = repo_devices.get_device_by_IP(str(self.message["IP_data"]))
+            self.device = repo_devices.get_device_by_IP_data(str(self.message["IP_data"]))
             if not self.device:
                 raise Exception()
         except Exception as e:

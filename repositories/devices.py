@@ -62,7 +62,17 @@ def get_device_by_id(device_id):
     result = json.loads(json_util.dumps(result))
     return result
 
-def get_device_by_IP(IP):
-    result = collection.find_one({"IP": IP})
+def get_device_by_IP_heartbeat(IP_heartbeat):
+    result = collection.find_one({"IP_heartbeat": IP_heartbeat})
+    result = json.loads(json_util.dumps(result))
+    return result
+
+def get_device_by_IP_data(IP_data):
+    result = collection.find_one({"IP_data": IP_data})
+    result = json.loads(json_util.dumps(result))
+    return result
+
+def get_device_by_IP_operation(IP_operation):
+    result = collection.find_one({"IP_operation": IP_operation})
     result = json.loads(json_util.dumps(result))
     return result
