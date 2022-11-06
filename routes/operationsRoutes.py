@@ -39,7 +39,7 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
         logging.info("ACK: " + str(response))
         if "OK" in response.decode("ISO-8859-1"):
             result = True
-        result = True
+        # result = True
     return result
 
 
