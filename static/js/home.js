@@ -26,7 +26,7 @@ function popup_device(device) {
     let last_heartbeat_action = "";
     let last_heartbeat_date_string = "";
     if (device.last_heartbeat) {
-        last_heartbeat_action = device.last_heartbeat.action;
+        last_heartbeat_action = device.last_heartbeat.log["message"];
         last_heartbeat_date_string = format_datetime(device.last_heartbeat.date["$date"]);
     }
     let div = `<div class="card" style="background-color">
