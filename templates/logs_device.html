@@ -66,10 +66,10 @@
                         <hr>
 
                         {% for message in get_flashed_messages() %}
-                            {% if "SUCCESS" in message %}
-                                <div class="alert alert-danger">{{ message }}</div>
-                            {% else %}
+                            {% if 'SUCCESS' in message %}
                                 <div class="alert alert-success">{{ message }}</div>
+                            {% else %}
+                                <div class="alert alert-danger">{{ message }}</div>
                             {% endif %}
                         {% endfor %}
 
