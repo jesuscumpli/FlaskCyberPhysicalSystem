@@ -22,6 +22,7 @@ class Handler(StreamRequestHandler):
             self.data = self.rfile.readline().strip()
             logging.info("DATOS RECIBIDOS DE <%s>: %s" % (self.client_address, self.data))
             self.decode_message_info()
+            logging.info("MENSAJE: <%s>" % self.message)
             self.get_device_by_IP_address()
             self.verify_data()
             self.data = self.message["data"]
@@ -47,7 +48,7 @@ class Handler(StreamRequestHandler):
             if not self.device:
                 raise Exception()
         except Exception as e:
-            raise Exception("No existe el dispositivo con IP: " + self.client_address[0])
+            raise Exception("No existe el dispositivo con IP: " + self.message["IP_data"])
 
     def verify_data(self):
         signature = self.message["signature"].encode("ISO-8859-1")
