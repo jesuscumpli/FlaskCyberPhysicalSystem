@@ -27,6 +27,25 @@
                         <table class="table table-borderless table-sm  mb-0 text-center">
                             <thead>
                             <tr>
+                                <th>IP Heartbeat</th>
+                                <th>IP Data</th>
+                                <th>Port Data</th>
+                                <th>IP Operation</th>
+                                <th>Port Operation</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td>{{ device.IP_heartbeat }}</td>
+                                <td>{{ device.IP_data }}</td>
+                                <td>{{ device.port_data }}</td>
+                                <td>{{ device.IP_operation }}</td>
+                                <td>{{ device.port_operation }}</td>
+                            </tr>
+                        </table>
+
+                        <table class="table table-borderless table-sm  mb-0 text-center">
+                            <thead>
+                            <tr>
                                 <th>Tipo</th>
                                 <th>Activo</th>
                                 <th>Última modificación</th>
@@ -36,10 +55,76 @@
                             <tr>
                                 <td>{{ device.type }}</td>
                                 <td>Sí</td>
-                                <td>{{ device.last_update_by }}<br/>{{ device.last_update["$date"] | format_datetime }}</td>
-                                <td>{{ device.register_date_by }}<br/>{{ device.register_date["$date"] | format_datetime }}</td>
+                                <td>{{ device.last_update_by }}<br/>{{ device.last_update["$date"] | format_datetime }}
+                                </td>
+                                <td>{{ device.register_date_by }}<br/>{{ device.register_date["$date"] | format_datetime }}
+                                </td>
                             </tr>
                         </table>
+
+                        <h5 class="mt-5"> OPERATIONS </h5>
+                        <hr>
+
+                        {% for message in get_flashed_messages() %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endfor %}
+
+                        {% if device.type == "temperature" %}
+                            <form method="POST" action="/send_operation/{{ device["_id"]["$oid"] }}">
+                                <div class="">
+                                    <label class="mb-2 text-muted" for="scale_temperature">Scale Temperature</label>
+                                    <select id="scale_temperature" name="scale_temperature"
+                                            class="form-control" required>
+                                        <option value="Celsius">Celsius</option>
+                                        <option value="Fahrenheit">Fahrenheit</option>
+                                        <option value="Kelvin">Kelvin</option>
+                                    </select>
+                                </div>
+                                <div class="align-items-center d-flex">
+                                    <button type="submit" class="btn ms-auto w-100 btn-primary">
+                                        Change Scale
+                                    </button>
+                                </div>
+                            </form>
+                        {% elif device.type == "humidity" %}
+                            <form method="POST" action="/send_operation/{{ device["_id"]["$oid"] }}">
+                                <div class="">
+                                    <label class="mb-2 text-muted" for="scale_humidity">Scale Humidity</label>
+                                    <select id="scale_humidity" name="scale_humidity"
+                                            class="form-control" required>
+                                        <option value="percentage">percentage</option>
+                                        <option value="relative_humidity">Relative Humidity</option>
+                                    </select>
+                                </div>
+                                <div class="align-items-center d-flex">
+                                    <button type="submit" class="btn ms-auto w-100 btn-primary">
+                                        Change Scale
+                                    </button>
+                                </div>
+                            </form>
+
+                        {% elif device.type == "smart_meter" %}
+                            <form method="POST" action="/send_operation/{{ device["_id"]["$oid"] }}">
+                                <div class="">
+                                    <label class="mb-2 text-muted" for="scale_smart_meter">Scale Smart Meter</label>
+                                    <select id="scale_smart_meter" name="scale_smart_meter"
+                                            class="form-control" required>
+                                        <option value="kWh">kWh</option>
+                                        <option value="kW">kW</option>
+                                        <option value="W">W</option>
+                                        <option value="J">J</option>
+                                        <option value="kJ">kJ</option>
+                                    </select>
+                                </div>
+                                <div class="align-items-center d-flex">
+                                    <button type="submit" class="btn ms-auto w-100 btn-primary">
+                                        Change Scale
+                                    </button>
+                                </div>
+                            </form>
+
+                        {% endif %}
+
 
                         <h5 class="mt-5"> LOGS </h5>
                         <hr>

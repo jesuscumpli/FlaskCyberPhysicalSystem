@@ -72,7 +72,11 @@ def new_device():
         public_key = files.get("public_key")
         longitude = form_data.get("longitude")
         latitude = form_data.get("latitude")
+        encrypt_operation = form_data.get("encrypt_operation")
 
+        if encrypt_operation is None:
+            flash("Encrypt Operation failed")
+            return redirect(request.url)
         if not name or name == "":
             flash("Nombre del dispoisitivo no válido")
             return redirect(request.url)
@@ -122,7 +126,7 @@ def new_device():
 
         port_data = int(port_data)
         port_operation = int(port_operation)
-        inserted = insert_device(name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"])
+        inserted = insert_device(name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"], encrypt_operation)
         if inserted:
             insert_log_user(session["username"], "register_device",
                             "Ha registrado el dispositivo '" + name + "' en el sistema")
@@ -157,6 +161,11 @@ def edit_device(device_id):
         public_key = files.get("public_key")
         longitude = form_data.get("longitude")
         latitude = form_data.get("latitude")
+        encrypt_operation = form_data.get("encrypt_operation")
+
+        if encrypt_operation is None:
+            flash("Encrypt Operation failed")
+            return redirect(request.url)
 
         if not name or name == "":
             flash("Nombre del dispoisitivo no válido")
@@ -206,7 +215,7 @@ def edit_device(device_id):
 
         port_data = int(port_data)
         port_operation = int(port_operation)
-        updated = update_device(device_id, name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"])
+        updated = update_device(device_id, name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"], encrypt_operation)
         if updated:
             insert_log_user(session["username"], "update_device",
                             "Ha cambiado la configuración del dispositivo '" + name + "'")

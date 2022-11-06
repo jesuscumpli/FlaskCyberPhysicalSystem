@@ -52,15 +52,25 @@
 
                                 <div class="mb-3">
                                     <label class="mb-2 text-muted" for="username">IP Operation</label>
-                                    <input id="ip_operation" type="text" class="form-control" name="ip_operation" maxlength="15"
+                                    <input id="ip_operation" type="text" class="form-control" name="ip_operation"
+                                           maxlength="15"
                                            required>
                                     <label class="mb-2 text-muted" for="username">Port Data</label>
-                                    <input id="port_operation" type="number" class="form-control" name="port_operation" required>
+                                    <input id="port_operation" type="number" class="form-control" name="port_operation"
+                                           required>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="mb-2 text-muted" for="username">Public Key</label>
                                     <input type="file" id="public_key" class="form-control" name="public_key" required>
+                                </div>
+
+                                <div class="mb-3 form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="encrypt_operation" name="encrypt_operation"
+                                           checked>
+                                    <label class="form-check-label" for="encrypt_operation">
+                                        Encrypt operations?
+                                    </label>
                                 </div>
 
                                 <div class="mb-3">

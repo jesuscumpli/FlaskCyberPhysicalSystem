@@ -7,7 +7,7 @@ import json
 
 collection = db["devices"]
 
-def insert_device(name, type, IP_hearbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, by_username):
+def insert_device(name, type, IP_hearbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, by_username, encrypt_operation=False):
     device_data = {
         "name": name,
         "type": type,
@@ -22,12 +22,13 @@ def insert_device(name, type, IP_hearbeat, IP_data, port_data, IP_operation, por
         "last_update": datetime.datetime.now(),
         "last_update_by": by_username,
         "register_date": datetime.datetime.now(),
-        "register_date_by": by_username
+        "register_date_by": by_username,
+        "encrypt_operation": encrypt_operation
     }
     result = collection.insert_one(device_data)
     return result
 
-def update_device(device_id, name, type, IP_hearbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, by_username):
+def update_device(device_id, name, type, IP_hearbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, by_username, encrypt_operation=False):
     device_data = {
         "name": name,
         "type": type,
@@ -40,6 +41,7 @@ def update_device(device_id, name, type, IP_hearbeat, IP_data, port_data, IP_ope
         "latitude": latitude,
         "last_update": datetime.datetime.now(),
         "last_update_by": by_username,
+        "encrypt_operation": encrypt_operation
     }
     if public_key_bytes:
         device_data["public_key"] = public_key_bytes
