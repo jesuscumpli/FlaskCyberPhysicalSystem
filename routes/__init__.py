@@ -13,3 +13,4 @@ from .homeRoutes import *
 from .deviceRoutes import *
 from .logsDeviceRoutes import *
 from .logsUsersRoutes import *
+from .operationsRoutes import *
