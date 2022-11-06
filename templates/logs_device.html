@@ -66,7 +66,11 @@
                         <hr>
 
                         {% for message in get_flashed_messages() %}
-                            <div class="alert alert-danger">{{ message }}</div>
+                            {% if "SUCCESS" in message %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% else %}
+                                <div class="alert alert-success">{{ message }}</div>
+                            {% endif %}
                         {% endfor %}
 
                         {% if device.type == "temperature" %}

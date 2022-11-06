@@ -33,9 +33,9 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((ip_to_send, port_to_send))
         s.sendall(message)
-        # response = s.recv(1024)
-        # if "OK" in response.decode("ISO-8859-1"):
-        #     result = True
+        response = s.recv(1024)
+        if "OK" in response.decode("ISO-8859-1"):
+            result = True
         result = True
     return result
 
@@ -75,5 +75,7 @@ def send_operation(device_id):
 
     result = send_data(data_to_send, ip_operation, port_operation, encrypt_operation=encrypt_operation, public_key_objective=public_key_objective)
     if not result:
-        flash("No se ha enviado correctamente el resultado")
+        flash("ERROR: No se ha enviado correctamente el resultado")
+    else:
+        flash("SUCCESS: Operacion realizado con éxito!")
     return redirect("/logs_device/" + device_id)
