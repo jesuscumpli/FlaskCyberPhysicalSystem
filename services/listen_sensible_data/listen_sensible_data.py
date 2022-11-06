@@ -1,3 +1,4 @@
+import base64
 from socketserver import TCPServer, StreamRequestHandler
 import socket
 import logging
@@ -39,7 +40,8 @@ class Handler(StreamRequestHandler):
             raise Exception("No existe el dispositivo con IP: " + self.client_address[0])
 
     def decrypt_data(self):
-        public_key_objective_bytes = self.device["public_key"]
+        public_key_objective_bytes = self.device["public_key"]["$binary"]["base64"]
+        public_key_objective_bytes = base64.b64decode(public_key_objective_bytes)
         logging.info(public_key_objective_bytes)
         public_key_objective = load_public_key_from_bytes(public_key_objective_bytes)
         private_key_objective = load_private_key()
