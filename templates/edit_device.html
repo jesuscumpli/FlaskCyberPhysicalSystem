@@ -14,7 +14,8 @@
                     <div class="card shadow-lg">
                         <div class="card-body p-5">
                             <h1 class="fs-4 card-title fw-bold mb-4">Dispositivo: {{ device.name }}</h1>
-                            <form method="POST" action="/edit_device/{{ device["_id"]["$oid"] }}" enctype="multipart/form-data" >
+                            <form method="POST" action="/edit_device/{{ device["_id"]["$oid"] }}"
+                                  enctype="multipart/form-data">
                                 {% for message in get_flashed_messages() %}
                                     <div class="alert alert-danger">{{ message }}</div>
                                 {% endfor %}
@@ -30,16 +31,41 @@
                                 <div class="mb-3">
                                     <label class="mb-2 text-muted" for="username">Tipo</label>
                                     <select class="form-select" name="type" id="type" required>
-                                        <option {% if device.type == "temperature" %} selected {% endif %} value="temperature">Temperatura</option>
-                                        <option {% if device.type == "humidity" %} selected {% endif %} value="humidity">Humedad</option>
-                                        <option {% if device.type == "smart_meter" %} selected {% endif %} value="smart_meter">Smart Meter</option>
+                                        <option {% if device.type == "temperature" %} selected {% endif %}
+                                                                                      value="temperature">Temperatura
+                                        </option>
+                                        <option {% if device.type == "humidity" %} selected {% endif %}
+                                                                                   value="humidity">Humedad
+                                        </option>
+                                        <option {% if device.type == "smart_meter" %} selected {% endif %}
+                                                                                      value="smart_meter">Smart Meter
+                                        </option>
                                     </select>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="mb-2 text-muted" for="username">IP</label>
-                                    <input id="ip" type="text" class="form-control" name="ip" maxlength="15"
-                                           required value="{{ device.IP }}">
+                                    <label class="mb-2 text-muted" for="username">IP Heartbeat</label>
+                                    <input id="ip_heartbeat" type="text" class="form-control" name="ip_heartbeat"
+                                           maxlength="15" value="{{ device.IP_heartbeat }}"
+                                           required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="mb-2 text-muted" for="username">IP Data</label>
+                                    <input id="ip_data" type="text" class="form-control" name="ip_data" maxlength="15"
+                                           required value="{{ device.IP_data }}">
+                                    <label class="mb-2 text-muted" for="username">Port Data</label>
+                                    <input id="port_data" type="number" class="form-control" name="port_data" required value="{{ device.port_data }}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="mb-2 text-muted" for="username">IP Operation</label>
+                                    <input id="ip_operation" type="text" class="form-control" name="ip_operation"
+                                           maxlength="15" value="{{ device.IP_operation }}"
+                                           required>
+                                    <label class="mb-2 text-muted" for="username">Port Data</label>
+                                    <input id="port_operation" type="number" class="form-control" name="port_operation"
+                                           required value="{{ device.port_operation }}">
                                 </div>
 
                                 <div class="mb-3">
@@ -50,10 +76,12 @@
 
                                 <div class="mb-3">
                                     <label class="mb-2 text-muted" for="username">Longitud</label>
-                                    <input id="longitude" type="number" step="0.0000001" class="form-control" name="longitude" value="{{ device.longitude }}"
-                                           required >
+                                    <input id="longitude" type="number" step="0.0000001" class="form-control"
+                                           name="longitude" value="{{ device.longitude }}"
+                                           required>
                                     <label class="mb-2 text-muted" for="username">Latitud</label>
-                                    <input id="latitude" type="number" step="0.0000001" class="form-control" name="latitude" value="{{ device.latitude }}"
+                                    <input id="latitude" type="number" step="0.0000001" class="form-control"
+                                           name="latitude" value="{{ device.latitude }}"
                                            required>
                                 </div>
 

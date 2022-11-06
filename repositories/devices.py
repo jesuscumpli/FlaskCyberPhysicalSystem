@@ -7,11 +7,15 @@ import json
 
 collection = db["devices"]
 
-def insert_device(name, type, IP, public_key_bytes, longitude, latitude, by_username):
+def insert_device(name, type, IP_hearbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, by_username):
     device_data = {
         "name": name,
         "type": type,
-        "IP": IP,
+        "IP_heartbeat": IP_hearbeat,
+        "IP_data": IP_data,
+        "port_data": port_data,
+        "IP_operation": IP_operation,
+        "port_operation": port_operation,
         "public_key": public_key_bytes,
         "longitude": longitude,
         "latitude": latitude,
@@ -23,11 +27,15 @@ def insert_device(name, type, IP, public_key_bytes, longitude, latitude, by_user
     result = collection.insert_one(device_data)
     return result
 
-def update_device(device_id, name, type, IP, public_key_bytes, longitude, latitude, by_username):
+def update_device(device_id, name, type, IP_hearbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, by_username):
     device_data = {
         "name": name,
         "type": type,
-        "IP": IP,
+        "IP_hearbeat": IP_hearbeat,
+        "IP_data": IP_data,
+        "port_data": port_data,
+        "IP_operation": IP_operation,
+        "port_operation": port_operation,
         "longitude": longitude,
         "latitude": latitude,
         "last_update": datetime.datetime.now(),

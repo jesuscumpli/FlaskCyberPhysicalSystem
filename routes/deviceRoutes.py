@@ -64,7 +64,11 @@ def new_device():
 
         name = form_data.get("name")
         type = form_data.get("type")
-        IP = form_data.get("ip")
+        IP_heartbeat = form_data.get("ip_heartbeat")
+        IP_data = form_data.get("ip_data")
+        port_data = form_data.get("port_data")
+        IP_operation = form_data.get("ip_operation")
+        port_operation = form_data.get("port_operation")
         public_key = files.get("public_key")
         longitude = form_data.get("longitude")
         latitude = form_data.get("latitude")
@@ -75,11 +79,25 @@ def new_device():
         if not type or type == "":
             flash("Tipo no definido. Por favor, selecciona el tipo de dispositivo.")
             return redirect(request.url)
-        if not IP or IP == "":
-            flash("IP no válida. Por favor, define la IP del dispositivo.")
+        if not IP_heartbeat or IP_heartbeat == "":
+            flash("IP Heartbeat no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        if not IP_data or IP_data == "":
+            flash("IP Data no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        if not port_data or port_data == "":
+            flash("Puerto de datos no definido. Por favor, defina el puerto.")
+            return redirect(request.url)
+        if not IP_operation or IP_operation == "":
+            flash("IP Operation no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        if not port_operation or port_operation == "":
+            flash("Puerto de operaciones no definido. Por favor, defina el puerto.")
             return redirect(request.url)
         try:
-            socket.inet_aton(IP)
+            socket.inet_aton(IP_heartbeat)
+            socket.inet_aton(IP_data)
+            socket.inet_aton(IP_operation)
         except socket.error:
             flash("IP no válida. Por favor, define la IP del dispositivo.")
             return redirect(request.url)
@@ -102,7 +120,7 @@ def new_device():
             flash("Latitud no válida. Por favor, define la localización correcta del dispositivo.")
             return redirect(request.url)
 
-        inserted = insert_device(name, type, IP, public_key_bytes, longitude, latitude, session["username"])
+        inserted = insert_device(name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"])
         if inserted:
             insert_log_user(session["username"], "register_device",
                             "Ha registrado el dispositivo '" + name + "' en el sistema")
@@ -129,7 +147,11 @@ def edit_device(device_id):
 
         name = form_data.get("name")
         type = form_data.get("type")
-        IP = form_data.get("ip")
+        IP_heartbeat = form_data.get("ip_heartbeat")
+        IP_data = form_data.get("ip_data")
+        port_data = form_data.get("port_data")
+        IP_operation = form_data.get("ip_operation")
+        port_operation = form_data.get("port_operation")
         public_key = files.get("public_key")
         longitude = form_data.get("longitude")
         latitude = form_data.get("latitude")
@@ -140,11 +162,25 @@ def edit_device(device_id):
         if not type or type == "":
             flash("Tipo no definido. Por favor, selecciona el tipo de dispositivo.")
             return redirect(request.url)
-        if not IP or IP == "":
-            flash("IP no válida. Por favor, define la IP del dispositivo.")
+        if not IP_heartbeat or IP_heartbeat == "":
+            flash("IP Heartbeat no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        if not IP_data or IP_data == "":
+            flash("IP Data no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        if not port_data or port_data == "":
+            flash("Puerto de datos no definido. Por favor, defina el puerto.")
+            return redirect(request.url)
+        if not IP_operation or IP_operation == "":
+            flash("IP Operation no válida. Por favor, define la IP del dispositivo.")
+            return redirect(request.url)
+        if not port_operation or port_operation == "":
+            flash("Puerto de operaciones no definido. Por favor, defina el puerto.")
             return redirect(request.url)
         try:
-            socket.inet_aton(IP)
+            socket.inet_aton(IP_heartbeat)
+            socket.inet_aton(IP_data)
+            socket.inet_aton(IP_operation)
         except socket.error:
             flash("IP no válida. Por favor, define la IP del dispositivo.")
             return redirect(request.url)
@@ -166,7 +202,7 @@ def edit_device(device_id):
             flash("Latitud no válida. Por favor, define la localización correcta del dispositivo.")
             return redirect(request.url)
 
-        updated = update_device(device_id, name, type, IP, public_key_bytes, longitude, latitude, session["username"])
+        updated = update_device(device_id, name, type, IP_heartbeat, IP_data, port_data, IP_operation, port_operation, public_key_bytes, longitude, latitude, session["username"])
         if updated:
             insert_log_user(session["username"], "update_device",
                             "Ha cambiado la configuración del dispositivo '" + name + "'")
