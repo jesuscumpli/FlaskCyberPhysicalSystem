@@ -3,7 +3,7 @@ Description=Listen Data Socket
 PartOf=listen_data.service
 
 [Socket]
-ListenStream=127.0.0.1:8885
+ListenStream=0.0.0.0:8885
 
 [Install]
 WantedBy=sockets.target
