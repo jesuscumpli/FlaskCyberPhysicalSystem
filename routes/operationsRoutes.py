@@ -16,6 +16,8 @@ from flask import jsonify
 from encryption.functions import *
 from encryption.encryption import *
 from encryption.config import *
+import logging
+logging.basicConfig(level=logging.INFO)
 
 def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_key_objective=None):
     result = False
@@ -34,6 +36,7 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
         s.connect((ip_to_send, port_to_send))
         s.sendall(message)
         response = s.recv(1024)
+        logging.info("ACK: " + str(response))
         if "OK" in response.decode("ISO-8859-1"):
             result = True
         result = True
