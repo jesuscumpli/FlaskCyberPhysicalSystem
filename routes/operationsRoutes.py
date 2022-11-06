@@ -76,4 +76,4 @@ def send_operation(device_id):
     result = send_data(data_to_send, ip_operation, port_operation, encrypt_operation=encrypt_operation, public_key_objective=public_key_objective)
     if not result:
         flash("No se ha enviado correctamente el resultado")
-    return redirect(request.url)
+    return redirect("/logs_device/" + device_id)
