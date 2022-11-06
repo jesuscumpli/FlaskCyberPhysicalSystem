@@ -24,7 +24,7 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
     else:
         data = data.encode("ISO-8859-1")
 
-    private_key = load_private_key("/opt/device/encryption/PRIVATE_KEY")
+    private_key = load_private_key("/opt/controlSystem/encryption/PRIVATE_KEY")
     signature = firm_data(data, private_key)
     message = {"ip_control_system": IP_CONTROL_SYSTEM, "data": data.decode("ISO-8859-1"), "signature": signature.decode("ISO-8859-1")}
     message = json.dumps(message)
@@ -40,8 +40,8 @@ def send_data(data, ip_to_send, port_to_send, encrypt_operation=False, public_ke
 
 
 def encrypt_message(message_decrypted, public_key_objective):
-    private_key = load_private_key("/opt/device/encryption/PRIVATE_KEY")
-    public_key = load_public_key("/opt/device/encryption/PUBLIC_KEY")
+    private_key = load_private_key("/opt/controlSystem/encryption/PRIVATE_KEY")
+    public_key = load_public_key("/opt/controlSystem/encryption/PUBLIC_KEY")
 
     encryptor = Encryption(private_key, public_key)
     encrypted_msg = encryptor.encrypt(message_decrypted, public_key_objective)
