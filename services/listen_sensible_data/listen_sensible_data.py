@@ -47,6 +47,7 @@ class Handler(StreamRequestHandler):
         decryptor = Encryption(private_key_objective, public_key_objective)
         decrypted_msg = decryptor.decrypt(self.data, public_key)
         self.data = decrypted_msg
+        logging.info("DECRYPTED MESSAGE: " + str(decrypted_msg))
 
     def normalize_data(self):
         data = self.data
