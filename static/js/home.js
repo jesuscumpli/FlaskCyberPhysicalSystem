@@ -21,7 +21,7 @@ function popup_device(device) {
     let last_log_date = "";
     if (device.last_log) {
         last_log_action = JSON.parse(device.last_log.log)["message"];
-        console.log(device.last_log)
+        last_log_action = JSON.stringify(last_log_action);
         last_log_date = format_datetime(device.last_log.date["$date"]);
     }
     let last_heartbeat_action = "";
