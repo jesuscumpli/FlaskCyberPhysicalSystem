@@ -8,6 +8,7 @@ from . import routes
 from repositories.users import *
 from repositories.logs_users import *
 import os
+import base64
 
 '''
 FILE WITH ROUTES ABOUT LOGIN, REGISTER AND LOGOUT USERS FROM WEB PAGE
@@ -43,7 +44,7 @@ def login():
             result = find_user_by_username(username)
             if result:
                 # Get user info
-                salt = result["salt"]
+                salt = base64.b64decode(result["salt"]["$binary"]["base64"])
                 password_salted = password.encode() + salt
                 password_hashed = hashlib.sha256(password_salted).hexdigest()
                 password_correct = result["password"]
