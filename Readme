@@ -26,5 +26,16 @@ sudo systemctl restart polling_heartbeats.service
   - IP Data (From Device to ControlSystem)
   - IP Operation (From ControlSystem to Device)
 
+# HOW TO CHECK IF WEB PAGE is UP
+See logs: sudo journalctl -xfu flask_main.service
 
+# HOW TO CHECK IF HEARTBEATS ARE WORKING
+See logs: sudo journalctl -xfu polling_heartbeats.service
+And in the web in home: in the map you can see the marker of the device, and it should be green if heartbeat sended correctly
+
+# HOW TO CHECK IF RECEIVES DATA
+If device send sensible data:
+See logs: sudo journalctl -xfu listen_sensible_data.service
+if device send normal data:
+See logs: sudo journalctl -xfu listen_data.service
 
