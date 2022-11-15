@@ -3,3 +3,28 @@
 - Python >= 3.7
 
 ################## TO INSTALL THE PROJECT ######################
+
+
+################## CONFIGURATION ######################
+
+# UPDATES CODE - GIT PULL
+refresh code updates with:
+cd /opt/controlSystem
+git pull
+
+# RESTART SERVICES AFTER UPDATES
+sudo systemctl restart flask_main.service
+sudo systemctl restart listen_data.service
+sudo systemctl restart listen_sensible_data.service
+sudo systemctl restart polling_heartbeats.service
+
+# ADD A NEW DEVICE IN THE WEB PAGE in IP_CONTROL_SYSTEM:5000
+- Go to Lista de Dispositivos
+- Nuevo Dispositivo
+- Fill form
+  - IP Heartbeat (From ControlSystem to Device)
+  - IP Data (From Device to ControlSystem)
+  - IP Operation (From ControlSystem to Device)
+
+
+
